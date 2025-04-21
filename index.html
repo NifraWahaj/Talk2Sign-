@@ -1,54 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talk2Sign - ASL Translation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            padding: 40px;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: auto;
-        }
-        h1 {
-            color: #333;
-        }
-        p {
-            font-size: 18px;
-            color: #555;
-        }
-        a {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 15px;
-            background: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        a:hover {
-            background: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Talk2Sign • Case Study</title>
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+
+  <style>
+    /* Theme Variables */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    :root { --primary: #d24a69; --primary-hover: #c2355b; --text: #212121; --light: #f9f9f9; --bg: #f2f2f2; --section-gap: 4rem; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(-45deg, #f2f2f2, #d24a69, #f9f9f9, #c2355b);
+      background-size: 400% 400%;
+      animation: gradientBG 20s ease infinite;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    nav { background: rgba(249,249,249,0.8); backdrop-filter: blur(10px); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    nav .nav-list { display: flex; gap: 1rem; justify-content: flex-end; list-style: none; }
+    nav .nav-list a { color: var(--text); text-decoration: none; font-weight: 600; }
+    header { padding: 6rem 1rem 2rem; text-align: center; position: relative; }
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('assets/hero-bg.jpg') center/cover no-repeat;
+      opacity: 0.2;
+      z-index: -1;
+      animation: floatBG 30s linear infinite;
+    }
+    @keyframes floatBG {
+      0% { transform: translate(0,0); }
+      50% { transform: translate(20px,10px); }
+      100% { transform: translate(0,0); }
+    }
+    header h1 { font-size: clamp(2.5rem, 8vw, 4rem); color: var(--primary); margin-bottom: 0.5rem; }
+    .tagline { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary-hover); }
+    .intro { font-size: 1rem; margin-bottom: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .btn { display: inline-block; padding: 0.85rem 2rem; font-size: 1rem; border-radius: 6px; text-decoration: none; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+    .btn-primary { background: var(--primary); color: var(--light); border: none; }
+    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
+    .btn-secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+    .btn-secondary:hover { background: var(--primary-hover); color: var(--light); transform: translateY(-2px); }
+    section { padding: var(--section-gap) 1rem; }
+    h2 { font-size: clamp(1.5rem, 4vw, 2rem); color: var(--primary); text-align: center; margin-bottom: 1rem; }
+    /* Highlights Cards */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1.5rem; max-width: 1000px; margin: auto; }
+    .card { background: var(--light); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+    .card h3 { margin-bottom: 0.5rem; color: var(--primary); }
+    .card p { flex-grow: 1; margin-bottom: 1rem; }
+    /* Tech Stack */
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px,1fr)); gap: 1.5rem; align-items: center; justify-items: center; max-width: 800px; margin: auto; }
+    .tech-grid img { width: 60px; filter: grayscale(50%); transition: filter 0.3s, transform 0.3s; }
+    .tech-grid img:hover { filter: none; transform: scale(1.1); }
+    .tech-name { margin-top: 0.5rem; font-size: 0.85rem; color: var(--text); text-align: center; }
+    /* Vertical Timeline */
+    .timeline { position: relative; width: 100%; max-width: 1140px; margin: 0 auto; padding: 15px 0; }
+    .timeline::after { content: ''; position: absolute; width: 2px; background: var(--primary); top: 0; bottom: 0; left: 50%; transform: translateX(-50%); }
+    .container-tl { padding: 15px 30px; position: relative; width: 50%; }
+    .container-tl.left { left: 0; }
+    .container-tl.right { left: 50%; }
+    .container-tl::after { content: ''; position: absolute; width: 16px; height: 16px; top: 50%; transform: translateY(-50%); right: -8px; background: var(--light); border: 2px solid var(--primary); border-radius: 50%; z-index: 1; }
+    .container-tl.right::after { left: -8px; }
+    .container-tl::before { content: ''; position: absolute; width: 50px; height: 2px; top: 50%; transform: translateY(-50%); right: 8px; background: var(--primary); z-index: 1; }
+    .container-tl.right::before { left: 8px; }
+    .container-tl .date { position: absolute; top: 50%; transform: translateY(-50%); font-size: 14px; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+    .container-tl.left .date { right: -75px; }
+    .container-tl.right .date { left: -75px; }
+    .container-tl .icon { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: var(--light); border: 2px solid var(--primary); border-radius: 50%; text-align: center; line-height: 36px; font-size: 18px; color: var(--primary); z-index: 1; }
+    .container-tl.left .icon { right: 56px; }
+    .container-tl.right .icon { left: 56px; }
+    .container-tl .content { padding: 30px 90px 30px 30px; background: var(--light); position: relative; border-radius: 0 500px 500px 0; }
+    .container-tl.right .content { padding: 30px 30px 30px 90px; border-radius: 500px 0 0 500px; }
+    .container-tl .content h3 { margin: 0 0 10px 0; font-size: 18px; color: var(--primary); }
+    .container-tl .content p { margin: 0; font-size: 16px; line-height: 22px; }
+    @media (max-width: 767.98px) {
+      .timeline::after { left: 90px; }
+      .container-tl { width: 100%; padding: 30px 30px 30px 120px; }
+      .container-tl.right { left: 0; }
+      .container-tl::after { left: 82px; }
+      .container-tl::before { left: 100px; border-color: transparent var(--primary) transparent transparent; }
+      .container-tl .date, .container-tl .icon { left: 15px !important; }
+      .container-tl .content { padding: 30px 30px 30px 90px; border-radius: 500px 0 0 500px; }
+    }
+    
+  </style>
 </head>
 <body>
+  <nav>
+    <a href="#hero" style="font-weight:700;color:var(--primary);">Talk2Sign</a>
+    <ul class="nav-list">
+      <li><a href="#hero">Intro</a></li>
+      <li><a href="#highlights">Highlights</a></li>
+      <li><a href="#timeline">Timeline</a></li>
+      <li><a href="#future">Future Work</a></li>
+      <li><a href="#team">Team</a></li>
+    </ul>
+  </nav>
 
-    <div class="container">
-        <h1>Talk2Sign</h1>
-        <p>An AI-powered ASL translation tool converting speech and text into **American Sign Language animations**.</p>
-        
-        <a href="https://github.com/your-repo-link" target="_blank">GitHub Repository</a>
-        <a href="https://your-live-app-link.com" target="_blank">Live Demo</a>
+  <header id="hero" class="fade-in delay-1">
+    <h1>Talk2Sign</h1>
+    <p class="tagline">Bridging English to ASL in real-time for inclusive communication.</p>
+    <p class="intro">Talk2Sign is a Progressive Web App that instantly translates text, audio, and video into American Sign Language, empowering Deaf and Hard-of-Hearing users to access multimedia seamlessly.</p>
+    <a href="#timeline" class="btn btn-primary">See Project Timeline</a>
+  </header>
+
+  <section id="highlights" class="fade-in delay-2">
+    <h2>Highlights</h2>
+    <div class="cards-grid">
+      <div class="card"><h3>Research</h3><p>State-of-the-art review of ASL translation techniques, including gloss models and avatar synthesis.</p><a href="#research" class="btn btn-secondary">Read More</a></div>
+      <div class="card"><h3>Model Training</h3><p>Fine-tuned T5-Base on cleaned English-ASL gloss dataset with custom preprocessing and hyperparameter tuning.</p><a href="#training" class="btn btn-secondary">Read More</a></div>
+      <div class="card"><h3>Tech Stack</h3><p>Built with React PWA, Flask backend, PyTorch models, FFmpeg stitching, Firebase auth, and APIs.</p><a href="#techstack" class="btn btn-secondary">Read More</a></div>
+      <div class="card"><h3>Live Demo</h3><p>Experience a quick ASL translation sample directly in your browser.</p><a href="#demo" class="btn btn-secondary">Play Demo</a></div>
+      <div class="card"><h3>Full Report</h3><p>Download our detailed final-year project report (PDF).</p><a href="assets/F24-127.pdf" class="btn btn-secondary">Download PDF</a></div>
     </div>
+  </section>
+  
+  <section id="demo-code" class="section">
+    <div class="container text-center">
+      <h2 class="section-heading">Live Demo &amp; Source</h2>
+      <div class="cta-group justify-content-center">
+        <a href="#" class="btn btn-primary btn-large disabled" role="button" aria-disabled="true">
+          🔒 Live Demo (Coming Soon)
+        </a>
+        <a href="#" class="btn btn-secondary btn-large disabled" role="button" aria-disabled="true">
+          🔒 GitHub Repo (Private Until Submission)
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  
+<section id="techstack">
+  <h2>Tech Stack</h2>
+  <div class="tech-grid">
+    <div>
+      <i class="devicon-react-original colored" title="React"></i>
+      <div class="tech-name">React</div>
+    </div>
+    <div>
+      <i class="devicon-flask-original colored" title="Flask"></i>
+      <div class="tech-name">Flask</div>
+    </div>
+    <div>
+      <i class="devicon-pytorch-original colored" title="PyTorch"></i>
+      <div class="tech-name">PyTorch</div>
+    </div>
+    <div>
+      <i class="devicon-ffmpeg-plain" title="FFmpeg"></i>
+      <div class="tech-name">FFmpeg</div>
+    </div>
+    <div>
+      <i class="devicon-firebase-plain colored" title="Firebase"></i>
+      <div class="tech-name">Firebase</div>
+    </div>
+    <div>
+      <i class="devicon-google-plain colored" title="Vision API"></i>
+      <div class="tech-name">Vision API</div>
+    </div>
+    <div>
+      <i class="devicon-assemblyscript-plain" title="AssemblyAI"></i>
+      <div class="tech-name">AssemblyAI</div>
+    </div>
+    <div>
+      <i class="devicon-github-original colored" title="GitHub Pages"></i>
+      <div class="tech-name">GitHub Pages</div>
+    </div>
+  </div>
+</section>
 
+
+  <section id="timeline" class="fade-in delay-2">
+    <h2>Project Timeline</h2>
+    <div class="timeline">
+      <div class="container-tl left">
+        <div class="date">Jul '24</div><div class="icon">🧠</div><div class="content"><h3>Idea & Research</h3><p>Brainstormed concept; literature survey on ASL translation methods.</p></div>
+      </div>
+      <div class="container-tl right">
+        <div class="date">Sep '24</div><div class="icon">🎨</div><div class="content"><h3>UI/UX Design</h3><p>Created wireframes and mockups; validated design with user feedback.</p></div>
+      </div>
+      <div class="container-tl left">
+        <div class="date">Sep–Nov '24</div><div class="icon">🔍</div><div class="content"><h3>Data Preprocessing</h3><p>Cleaned and tokenized ASLLVD dataset; normalized gloss tokens and split data for training.</p></div>
+      </div>
+      <div class="container-tl right">
+        <div class="date">Nov '24</div><div class="icon">⚙️</div><div class="content"><h3>Model Prototyping</h3><p>Explored LSTM, CNN, and 3D-CNN approaches; evaluated performance and feasibility.</p></div>
+      </div>
+      <div class="container-tl left">
+        <div class="date">Dec '24</div><div class="icon">🤖</div><div class="content"><h3>T5 Fine-Tuning</h3><p>Switched to fine-tuning T5 (small→base); optimized hyperparameters.</p></div>
+      </div>
+      <div class="container-tl right">
+        <div class="date">Dec '24</div><div class="icon">💻</div><div class="content"><h3>Frontend & APIs</h3><p>Built React PWA, integrated Firebase Auth, Google Vision OCR, and AssemblyAI ASR.</p></div>
+      </div>
+      <div class="container-tl left">
+        <div class="date">Feb '25</div><div class="icon">🔗</div><div class="content"><h3>Backend Integration</h3><p>Connected Flask API to model, set up YouTube Subtitles API and full pipeline.</p></div>
+      </div>
+      <div class="container-tl right">
+        <div class="date">Mar '25</div><div class="icon">⏸️</div><div class="content"><h3>Pause & Refine</h3><p>Paused to refine scope and plan video stitching implementation.</p></div>
+      </div>
+      <div class="container-tl left">
+        <div class="date">Apr '25</div><div class="icon">🎞️</div><div class="content"><h3>Video Stitching</h3><p>Implemented FFmpeg logic to stitch ASLLVD clips into continuous ASL videos.</p></div>
+      </div>
+      <div class="container-tl right">
+        <div class="date">May '25</div><div class="icon">📢</div><div class="content"><h3>FYP Presentation</h3><p>Prepared final presentation and submitted to evaluation committee.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="future" class="alternate-background">
+    <h2>Future Work</h2><ul><li>End-to-end video & multi-modal translation without gloss stage</li><li>Facial expression & non-manual cues integration</li><li>Domain-specific dataset expansions (medical, legal)</li><li>Mobile PWA offline support</li><li>Comprehensive user accessibility testing</li></ul>
+  </section>
+
+  <section id="team">
+    <h2>Team & Contributions</h2><ul><li><strong><a href="https://github.com/nifrawahaj" style="color:var(--primary);">Nifra Wahaj</a></strong> – Model training & preprocessing</li><li><strong><a href="https://github.com/rubinanoor" style="color:var(--primary);">Rubina Noor</a></strong> – Frontend & UX design</li><li><strong><a href="https://github.com/amanzeeshan" style="color:var(--primary);">Aman Zeeshan</a></strong> – Video stitching & deployment</li></ul>
+    <p>Contact: <a href="mailto:talk2sign@gmail.com" style="color:var(--primary);">talk2sign@gmail.com</a></p>
+  </section>
+
+  <footer style="text-align:center;padding:1rem;background:var(--light);">
+    <p>© 2025 Talk2Sign Team</p>
+  </footer>
 </body>
 </html>
