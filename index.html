@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,11 +13,11 @@
   <style>
     /* Theme Variables */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-    :root { --primary: #d24a69; --primary-hover: #c2355b; --text: #212121; --light: #f9f9f9; --bg: #f2f2f2; --section-gap: 4rem; }
+    :root { --primary: #d24a69; --primary-hover: #961b3c; --text: #212121; --light: #f9f9f9; --bg: #f2f2f2; --section-gap: 4rem; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(-45deg, #f2f2f2, #d24a69, #f9f9f9, #c2355b);
+      background: linear-gradient(-45deg, #f2f2f2, #c88d9b, #f9f9f9, #d18ea0);
       background-size: 400% 400%;
       animation: gradientBG 20s ease infinite;
       color: var(--text);
@@ -25,9 +28,93 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    nav { background: rgba(249,249,249,0.8); backdrop-filter: blur(10px); padding: 1rem; position: fixed; width: 100%; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    nav .nav-list { display: flex; gap: 1rem; justify-content: flex-end; list-style: none; }
-    nav .nav-list a { color: var(--text); text-decoration: none; font-weight: 600; }
+    nav {
+  background: var(--light);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 4rem;
+}
+.nav-list {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+}
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  padding: 0.25rem;
+}
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+nav a:hover::after {
+  width: 100%;
+}/* in your existing <style> */
+.logo {
+font-weight: 700;
+color: var(--primary);
+}
+.nav-toggle {
+display: none;
+background: none;
+border: none;
+cursor: pointer;
+}
+.nav-toggle .hamburger,
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+width: 24px; height: 3px;
+background: var(--text);
+border-radius: 2px;
+position: relative;
+transition: transform 0.3s;
+}
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+content: "";
+position: absolute;
+}
+.nav-toggle .hamburger::before { top: -8px; }
+.nav-toggle .hamburger::after  { top:  8px; }
+
+@media (max-width: 768px) {
+.nav-toggle {
+  display: block;
+}
+.nav-list {
+  position: absolute;
+  top: 100%; left: 0;
+  width: 100%;
+  background: var(--light);
+  flex-direction: column;
+  transform: translateY(-200%);
+  transition: transform 0.3s ease-in-out;
+}
+.nav-list.open {
+  transform: translateY(0);
+}
+.nav-list li {
+  margin: 1rem 0;
+  text-align: center;
+}
+}
+
     header { padding: 6rem 1rem 2rem; text-align: center; position: relative; }
     header::before {
       content: '';
@@ -60,11 +147,13 @@
     .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
     .card h3 { margin-bottom: 0.5rem; color: var(--primary); }
     .card p { flex-grow: 1; margin-bottom: 1rem; }
-    /* Tech Stack */
-    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px,1fr)); gap: 1.5rem; align-items: center; justify-items: center; max-width: 800px; margin: auto; }
-    .tech-grid img { width: 60px; filter: grayscale(50%); transition: filter 0.3s, transform 0.3s; }
-    .tech-grid img:hover { filter: none; transform: scale(1.1); }
-    .tech-name { margin-top: 0.5rem; font-size: 0.85rem; color: var(--text); text-align: center; }
+    /* Demo & Source */
+  #demo-code .cta-group { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; }
+   /* Tech Stack */
+  .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px,1fr)); gap: 1.5rem; align-items: center; justify-items: center; margin-top: 2rem; }
+  .tech-grid i { font-size: 3rem; filter: grayscale(50%); transition: filter var(--transition), transform var(--transition); }
+  .tech-grid i:hover { filter: none; transform: scale(1.2); }
+  .tech-name { margin-top: 0.5rem; font-size: 0.9rem; color: var(--text); text-align: center; }
     /* Vertical Timeline */
     .timeline { position: relative; width: 100%; max-width: 1140px; margin: 0 auto; padding: 15px 0; }
     .timeline::after { content: ''; position: absolute; width: 2px; background: var(--primary); top: 0; bottom: 0; left: 50%; transform: translateX(-50%); }
@@ -75,7 +164,7 @@
     .container-tl.right::after { left: -8px; }
     .container-tl::before { content: ''; position: absolute; width: 50px; height: 2px; top: 50%; transform: translateY(-50%); right: 8px; background: var(--primary); z-index: 1; }
     .container-tl.right::before { left: 8px; }
-    .container-tl .date { position: absolute; top: 50%; transform: translateY(-50%); font-size: 14px; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+    .container-tl .date { position: absolute; top: 50%; transform: translateY(-50%); font-size: 12px; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
     .container-tl.left .date { right: -75px; }
     .container-tl.right .date { left: -75px; }
     .container-tl .icon { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: var(--light); border: 2px solid var(--primary); border-radius: 50%; text-align: center; line-height: 36px; font-size: 18px; color: var(--primary); z-index: 1; }
@@ -94,20 +183,133 @@
       .container-tl .date, .container-tl .icon { left: 15px !important; }
       .container-tl .content { padding: 30px 30px 30px 90px; border-radius: 500px 0 0 500px; }
     }
-    
+    /* Future Work Cards */
+#future {
+padding: var(--section-gap) 1rem;
+}
+#future .future-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+gap: 1.5rem;
+max-width: 1000px;
+margin: 0 auto;
+}
+#future .future-item {
+background: var(--light);
+padding: 1.5rem;
+border-radius: 8px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+transition: transform 0.2s, box-shadow 0.2s;
+}
+#future .future-item:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+#future .future-item h3 {
+margin-bottom: 0.75rem;
+font-size: 1.1rem;
+color: var(--primary);
+}
+#future .future-item p {
+font-size: 0.95rem;
+line-height: 1.4;
+color: var(--text);
+}
+
+    /* Team Section */
+#team {
+padding: var(--section-gap) 1rem;
+}
+#team .team-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+gap: 1.5rem;
+max-width: 1000px;
+margin: 0 auto;
+}
+.team-card {
+background: var(--light);
+padding: 1.5rem;
+border-radius: 8px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+text-align: center;
+transition: transform 0.2s, box-shadow 0.2s;
+}
+.team-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.team-card .avatar {
+width: 80px;
+height: 80px;
+margin: 0 auto 1rem;
+background: var(--primary);
+color: var(--light);
+font-size: 1.5rem;
+font-weight: 700;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%;
+}
+.team-card h3 {
+margin-bottom: 0.5rem;
+font-size: 1.1rem;
+color: var(--primary);
+}
+.team-card h3 a {
+color: inherit;
+text-decoration: none;
+}
+.team-card p {
+font-size: 0.95rem;
+color: var(--text);
+line-height: 1.4;
+}
+#team .contact {
+text-align: center;
+margin-top: 2rem;
+font-size: 1rem;
+}
+#team .contact a {
+color: var(--primary);
+text-decoration: none;
+font-weight: 600;
+}
+/* Footer */
+footer {
+background: var(--light);
+padding: 0.1rem 1rem;
+}
+.footer-copy {
+text-align: center;
+margin-top: 1rem;
+font-size: 0.9rem;
+color: var(--text);
+}
+
   </style>
+  <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
+
 </head>
 <body>
+  
   <nav>
-    <a href="#hero" style="font-weight:700;color:var(--primary);">Talk2Sign</a>
-    <ul class="nav-list">
-      <li><a href="#hero">Intro</a></li>
-      <li><a href="#highlights">Highlights</a></li>
-      <li><a href="#timeline">Timeline</a></li>
-      <li><a href="#future">Future Work</a></li>
-      <li><a href="#team">Team</a></li>
-    </ul>
-  </nav>
+      <div class="container nav-container">
+        <a href="#hero" class="logo">Talk2Sign</a>
+        <button class="nav-toggle" aria-label="Toggle menu">
+          <span class="hamburger"></span>
+        </button>
+        <ul class="nav-list">
+          <li><a href="#hero">Overview</a></li>
+          <li><a href="#highlights">Highlights</a></li>
+          <li><a href="#timeline">Timeline</a></li>
+          <li><a href="#future">Next Steps</a></li>
+          <li><a href="#team">Contributors</a></li>
+        </ul>
+      </div>
+    </nav>
+    
 
   <header id="hero" class="fade-in delay-1">
     <h1>Talk2Sign</h1>
@@ -120,10 +322,10 @@
     <h2>Highlights</h2>
     <div class="cards-grid">
       <div class="card"><h3>Research</h3><p>State-of-the-art review of ASL translation techniques, including gloss models and avatar synthesis.</p><a href="#research" class="btn btn-secondary">Read More</a></div>
-      <div class="card"><h3>Model Training</h3><p>Fine-tuned T5-Base on cleaned English-ASL gloss dataset with custom preprocessing and hyperparameter tuning.</p><a href="#training" class="btn btn-secondary">Read More</a></div>
+      <div class="card"><h3>Model Training</h3><p>Fine-tuned T5-Base on cleaned English-ASL gloss dataset with preprocessing and hyperparameter tuning.</p><a href="#training" class="btn btn-secondary">Read More</a></div>
       <div class="card"><h3>Tech Stack</h3><p>Built with React PWA, Flask backend, PyTorch models, FFmpeg stitching, Firebase auth, and APIs.</p><a href="#techstack" class="btn btn-secondary">Read More</a></div>
-      <div class="card"><h3>Live Demo</h3><p>Experience a quick ASL translation sample directly in your browser.</p><a href="#demo" class="btn btn-secondary">Play Demo</a></div>
-      <div class="card"><h3>Full Report</h3><p>Download our detailed final-year project report (PDF).</p><a href="assets/F24-127.pdf" class="btn btn-secondary">Download PDF</a></div>
+     <!-- <div class="card"><h3>Live Demo</h3><p>Experience a quick ASL translation sample directly in your browser.</p><a href="#demo" class="btn btn-secondary">Play Demo</a></div>
+      <div class="card"><h3>Full Report</h3><p>Download our detailed final-year project report. (Private Until Submission)</p><a href="assets/F24-127.pdf" class="btn btn-secondary">Download PDF</a></div> --> 
     </div>
   </section>
   
@@ -142,43 +344,18 @@
   </section>
   
   
-<section id="techstack">
-  <h2>Tech Stack</h2>
-  <div class="tech-grid">
-    <div>
-      <i class="devicon-react-original colored" title="React"></i>
-      <div class="tech-name">React</div>
-    </div>
-    <div>
-      <i class="devicon-flask-original colored" title="Flask"></i>
-      <div class="tech-name">Flask</div>
-    </div>
-    <div>
-      <i class="devicon-pytorch-original colored" title="PyTorch"></i>
-      <div class="tech-name">PyTorch</div>
-    </div>
-    <div>
-      <i class="devicon-ffmpeg-plain" title="FFmpeg"></i>
-      <div class="tech-name">FFmpeg</div>
-    </div>
-    <div>
-      <i class="devicon-firebase-plain colored" title="Firebase"></i>
-      <div class="tech-name">Firebase</div>
-    </div>
-    <div>
-      <i class="devicon-google-plain colored" title="Vision API"></i>
-      <div class="tech-name">Vision API</div>
-    </div>
-    <div>
-      <i class="devicon-assemblyscript-plain" title="AssemblyAI"></i>
-      <div class="tech-name">AssemblyAI</div>
-    </div>
-    <div>
-      <i class="devicon-github-original colored" title="GitHub Pages"></i>
-      <div class="tech-name">GitHub Pages</div>
-    </div>
-  </div>
-</section>
+  <section id="techstack" class="container">
+      <h2>Tech Stack</h2>
+      <div class="tech-grid">
+        <div><i class="devicon-react-original" title="React"></i><div class="tech-name">React</div></div>
+        <div><i class="devicon-flask-original" title="Flask"></i><div class="tech-name">Flask</div></div>
+        <div><i class="devicon-pytorch-original" title="PyTorch"></i><div class="tech-name">PyTorch</div></div>
+        <div><i class="devicon-ffmpeg-plain" title="FFmpeg"></i><div class="tech-name">FFmpeg</div></div>
+        <div><i class="devicon-firebase-plain" title="Firebase"></i><div class="tech-name">Firebase</div></div>
+        <div><i class="devicon-google-plain" title="Vision API"></i><div class="tech-name">Google Vision API</div></div>
+        <div><i class="devicon-assemblyscript-plain" title="AssemblyAI"></i><div class="tech-name">AssemblyAI</div></div>
+      </div>
+    </section>
 
 
   <section id="timeline" class="fade-in delay-2">
@@ -188,46 +365,79 @@
         <div class="date">Jul '24</div><div class="icon">🧠</div><div class="content"><h3>Idea & Research</h3><p>Brainstormed concept; literature survey on ASL translation methods.</p></div>
       </div>
       <div class="container-tl right">
-        <div class="date">Sep '24</div><div class="icon">🎨</div><div class="content"><h3>UI/UX Design</h3><p>Created wireframes and mockups; validated design with user feedback.</p></div>
+        <div class="date">Oct '24</div><div class="icon">🎨</div><div class="content"><h3>UI/UX Design</h3><p>Created wireframes and mockups; validated design with user feedback.</p></div>
       </div>
       <div class="container-tl left">
-        <div class="date">Sep–Nov '24</div><div class="icon">🔍</div><div class="content"><h3>Data Preprocessing</h3><p>Cleaned and tokenized ASLLVD dataset; normalized gloss tokens and split data for training.</p></div>
+        <div class="date">Nov '24</div><div class="icon">🔍</div><div class="content"><h3>Data Preprocessing</h3><p>Cleaned and tokenized ASLLVD dataset; normalized gloss tokens and split data for training.</p></div>
       </div>
       <div class="container-tl right">
-        <div class="date">Nov '24</div><div class="icon">⚙️</div><div class="content"><h3>Model Prototyping</h3><p>Explored LSTM, CNN, and 3D-CNN approaches; evaluated performance and feasibility.</p></div>
+        <div class="date">Dec '24</div><div class="icon">⚙️</div><div class="content"><h3>Model Prototyping & Fine-Tuning + Frontend & APIs Implementation</h3><p>Explored LSTM, CNN, and 3D-CNN approaches; evaluated performance and feasibility. Switched to fine-tuning T5 (small→base); optimized hyperparameters. Built React PWA, integrated Firebase Auth, Google Vision OCR, and AssemblyAI ASR.</p></div>
       </div>
       <div class="container-tl left">
-        <div class="date">Dec '24</div><div class="icon">🤖</div><div class="content"><h3>T5 Fine-Tuning</h3><p>Switched to fine-tuning T5 (small→base); optimized hyperparameters.</p></div>
+        <div class="date">Jan '25</div><div class="icon">🔗</div><div class="content"><h3>Backend Integration</h3><p>Connected Flask API to model, set up YouTube Subtitles API and full pipeline.</p></div>
       </div>
       <div class="container-tl right">
-        <div class="date">Dec '24</div><div class="icon">💻</div><div class="content"><h3>Frontend & APIs</h3><p>Built React PWA, integrated Firebase Auth, Google Vision OCR, and AssemblyAI ASR.</p></div>
+        <div class="date">March '25</div><div class="icon">🎞️</div><div class="content"><h3>Video Stitching</h3><p>Implemented FFmpeg logic to stitch ASLLVD clips into continuous ASL videos.</p></div>
       </div>
       <div class="container-tl left">
-        <div class="date">Feb '25</div><div class="icon">🔗</div><div class="content"><h3>Backend Integration</h3><p>Connected Flask API to model, set up YouTube Subtitles API and full pipeline.</p></div>
-      </div>
-      <div class="container-tl right">
-        <div class="date">Mar '25</div><div class="icon">⏸️</div><div class="content"><h3>Pause & Refine</h3><p>Paused to refine scope and plan video stitching implementation.</p></div>
-      </div>
-      <div class="container-tl left">
-        <div class="date">Apr '25</div><div class="icon">🎞️</div><div class="content"><h3>Video Stitching</h3><p>Implemented FFmpeg logic to stitch ASLLVD clips into continuous ASL videos.</p></div>
-      </div>
-      <div class="container-tl right">
-        <div class="date">May '25</div><div class="icon">📢</div><div class="content"><h3>FYP Presentation</h3><p>Prepared final presentation and submitted to evaluation committee.</p></div>
+        <div class="date">April '25</div><div class="icon">⚙️</div><div class="content"><h3>Integration</h3><p>Final integration of all modules.</p></div>
       </div>
     </div>
   </section>
 
-  <section id="future" class="alternate-background">
-    <h2>Future Work</h2><ul><li>End-to-end video & multi-modal translation without gloss stage</li><li>Facial expression & non-manual cues integration</li><li>Domain-specific dataset expansions (medical, legal)</li><li>Mobile PWA offline support</li><li>Comprehensive user accessibility testing</li></ul>
-  </section>
+  <section id="future" >
+      <h2>Future Work</h2>
+      <div class="future-grid">
+    
+        <div class="future-item">
+          <h3>Domain-specific datasets</h3>
+          <p>Expand into medical, legal & other specialized vocabularies.</p>
+        </div>
+        <div class="future-item">
+          <h3>Offline PWA support</h3>
+          <p>Enable ASL translation without network—perfect for low-connectivity scenarios.</p>
+        </div>
+        <div class="future-item">
+          <h3>Advanced Dataset & Model Optimization</h3>
+          <p>Curate larger, more diverse gloss - video corpora and apply transfer learning to boost accuracy.</p>
+        </div>
+        
+      </div>
+    </section>
+    
 
-  <section id="team">
-    <h2>Team & Contributions</h2><ul><li><strong><a href="https://github.com/nifrawahaj" style="color:var(--primary);">Nifra Wahaj</a></strong> – Model training & preprocessing</li><li><strong><a href="https://github.com/rubinanoor" style="color:var(--primary);">Rubina Noor</a></strong> – Frontend & UX design</li><li><strong><a href="https://github.com/amanzeeshan" style="color:var(--primary);">Aman Zeeshan</a></strong> – Video stitching & deployment</li></ul>
-    <p>Contact: <a href="mailto:talk2sign@gmail.com" style="color:var(--primary);">talk2sign@gmail.com</a></p>
-  </section>
+    <section id="team">
+      <h2>Team & Contributions</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="avatar">NW</div>
+          <h3><a href="https://github.com/nifrawahaj">Nifra Wahaj</a></h3>
+          <p>Model training &amp; Video stitching &amp; PWA </p>
+        </div>
+        <div class="team-card">
+          <div class="avatar">RN</div>
+          <h3><a href="https://github.com/rubinanoor">Rubina Noor</a></h3>
+          <p>Model training &amp; Frontend &amp; UX design</p>
+        </div>
+        <div class="team-card">
+          <div class="avatar">AZ</div>
+          <h3><a href="https://github.com/amanzeeshan">Aman Zeeshan</a></h3>
+          <p>Documentation &amp; APIs</p>
+        </div>
+      </div>
+      <p class="contact">
+        💬 Got questions, feedback, or want to collaborate?  
+        Drop us a line at  
+        <a href="mailto:talk2sign@gmail.com">talk2sign@gmail.com</a>
+      </p>
+      
+    </section>
+    
 
-  <footer style="text-align:center;padding:1rem;background:var(--light);">
-    <p>© 2025 Talk2Sign Team</p>
-  </footer>
+    <footer>
+
+      <div class="footer-copy">© 2025 Talk2Sign</div>
+    </footer>
+    
 </body>
 </html>
