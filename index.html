@@ -9,7 +9,6 @@
   <title>Talk2Sign • Case Study</title>
   <link rel="stylesheet"
   href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
-
   <style>
     /* Theme Variables */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -66,10 +65,21 @@ nav a::after {
 nav a:hover::after {
   width: 100%;
 }/* in your existing <style> */
-.logo {
-font-weight: 700;
-color: var(--primary);
+
+.logo-img {
+  display: block;
+  height: 30px;       /* adjust to fit your nav height */
+  width: auto;
 }
+/* Icons */
+.tech-grid i,
+.tech-item .tech-img {
+  font-size: 3rem;      /* was 2rem */
+  width: 3rem;
+  height: 3rem;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
 .nav-toggle {
 display: none;
 background: none;
@@ -115,6 +125,7 @@ position: absolute;
 }
 }
 
+
     header { padding: 6rem 1rem 2rem; text-align: center; position: relative; }
     header::before {
       content: '';
@@ -150,9 +161,64 @@ position: absolute;
     /* Demo & Source */
   #demo-code .cta-group { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; }
    /* Tech Stack */
-  .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px,1fr)); gap: 1.5rem; align-items: center; justify-items: center; margin-top: 2rem; }
-  .tech-grid i { font-size: 3rem; filter: grayscale(50%); transition: filter var(--transition), transform var(--transition); }
-  .tech-grid i:hover { filter: none; transform: scale(1.2); }
+/* Container */
+#techstack { padding: var(--section-gap) 1rem; }
+#techstack h2 { text-align: center; color: var(--primary); margin-bottom: 1rem; }
+
+/* tighten up the grid gap */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, auto));
+  gap: 2rem;              /* reduce from 4rem to 2rem */
+  justify-content: center;
+}
+
+/* center each icon container */
+.tech-item {
+  position: relative;     /* for tooltip positioning */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+/* hide the label by default */
+.tech-name {
+  position: absolute;
+  bottom: 120%;           /* above the icon */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: rgba(177, 166, 166, 0.8);
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* show the label on hover */
+.tech-item:hover .tech-name {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* optional: keep your float/bob animation */
+.tech-item:hover i {
+  animation: floatIcon 1.8s ease-in-out infinite;
+  filter: none;
+  transform: scale(1.2);
+}
+
+
+
+
   .tech-name { margin-top: 0.5rem; font-size: 0.9rem; color: var(--text); text-align: center; }
     /* Vertical Timeline */
     .timeline { position: relative; width: 100%; max-width: 1140px; margin: 0 auto; padding: 15px 0; }
@@ -287,16 +353,32 @@ margin-top: 1rem;
 font-size: 0.9rem;
 color: var(--text);
 }
-
-  </style>
-  <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 4px;
+  width: 0;
+  background: var(--primary);
+  z-index: 200;
+  transition: width 0.1s ease-out;
+}
+</style>
+<link rel="icon" href="favicon-32x32.png" type="image/x-icon">
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
 </head>
+
 <body>
-  
+  <div id="scroll-progress"></div>
+  <div id="particles-js" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;"></div>
+
   <nav>
       <div class="container nav-container">
-        <a href="#hero" class="logo">Talk2Sign</a>
+        <a href="#hero" class="logo">
+          <img src="logo.png" alt="Talk2Sign logo" class="logo-img">
+        </a>
+        
+        
         <button class="nav-toggle" aria-label="Toggle menu">
           <span class="hamburger"></span>
         </button>
@@ -324,7 +406,7 @@ color: var(--text);
       <div class="card"><h3>Research</h3><p>State-of-the-art review of ASL translation techniques, including gloss models and avatar synthesis.</p><a href="#research" class="btn btn-secondary">Read More</a></div>
       <div class="card"><h3>Model Training</h3><p>Fine-tuned T5-Base on cleaned English-ASL gloss dataset with preprocessing and hyperparameter tuning.</p><a href="#training" class="btn btn-secondary">Read More</a></div>
       <div class="card"><h3>Tech Stack</h3><p>Built with React PWA, Flask backend, PyTorch models, FFmpeg stitching, Firebase auth, and APIs.</p><a href="#techstack" class="btn btn-secondary">Read More</a></div>
-     <!-- <div class="card"><h3>Live Demo</h3><p>Experience a quick ASL translation sample directly in your browser.</p><a href="#demo" class="btn btn-secondary">Play Demo</a></div>
+       <!-- <div class="card"><h3>Live Demo</h3><p>Experience a quick ASL translation sample directly in your browser.</p><a href="#demo" class="btn btn-secondary">Play Demo</a></div>
       <div class="card"><h3>Full Report</h3><p>Download our detailed final-year project report. (Private Until Submission)</p><a href="assets/F24-127.pdf" class="btn btn-secondary">Download PDF</a></div> --> 
     </div>
   </section>
@@ -345,17 +427,38 @@ color: var(--text);
   
   
   <section id="techstack" class="container">
-      <h2>Tech Stack</h2>
-      <div class="tech-grid">
-        <div><i class="devicon-react-original" title="React"></i><div class="tech-name">React</div></div>
-        <div><i class="devicon-flask-original" title="Flask"></i><div class="tech-name">Flask</div></div>
-        <div><i class="devicon-pytorch-original" title="PyTorch"></i><div class="tech-name">PyTorch</div></div>
-        <div><i class="devicon-ffmpeg-plain" title="FFmpeg"></i><div class="tech-name">FFmpeg</div></div>
-        <div><i class="devicon-firebase-plain" title="Firebase"></i><div class="tech-name">Firebase</div></div>
-        <div><i class="devicon-google-plain" title="Vision API"></i><div class="tech-name">Google Vision API</div></div>
-        <div><i class="devicon-assemblyscript-plain" title="AssemblyAI"></i><div class="tech-name">AssemblyAI</div></div>
+    <h2>Tech Stack</h2>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <i class="devicon-react-original" title="React"></i>
+        <div class="tech-name">React</div>
       </div>
-    </section>
+      <div class="tech-item">
+        <i class="devicon-flask-original" title="Flask"></i>
+        <div class="tech-name">Flask</div>
+      </div>
+      <div class="tech-item">
+        <i class="devicon-pytorch-original" title="PyTorch"></i>
+        <div class="tech-name">PyTorch</div>
+      </div>
+      <div class="tech-item">
+        <img src="ffmpeg.png" alt="FFmpeg" class="tech-img" style="height:50px">
+        <div class="tech-name">FFmpeg</div>
+      </div>
+      <div class="tech-item">
+        <i class="devicon-firebase-plain" title="Firebase"></i>
+        <div class="tech-name">Firebase</div>
+      </div>
+      <div class="tech-item">
+        <i class="devicon-google-plain" title="Vision API"></i>
+        <div class="tech-name">Vision API</div>
+      </div>
+      <div class="tech-item">
+        <img src="assemblyai.png" alt="AssemblyAI" class="tech-img" style="height:60px">
+        <div class="tech-name">AssemblyAI</div>
+      </div>
+    </div>
+  </section>
 
 
   <section id="timeline" class="fade-in delay-2">
@@ -438,6 +541,36 @@ color: var(--text);
 
       <div class="footer-copy">© 2025 Talk2Sign</div>
     </footer>
-    
+    <script>
+      document.addEventListener('DOMContentLoaded', ()=> {
+
+        const progress = document.getElementById('scroll-progress');
+        window.addEventListener('scroll', ()=>{
+          let pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+          progress.style.width = pct + '%';
+        });
+
+        particlesJS('particles-js', {
+          particles: {
+            number: { value: 50 },
+            size:   { value: 3 },
+            line_linked: { enable: true, distance: 150, opacity: 0.4 },
+            move: { speed: 1 }
+          },
+          interactivity: {
+            detect_on: 'canvas',
+            events: { onhover: { enable: false }, onclick: { enable: false } }
+          }
+        });
+        const items = document.querySelectorAll('.tech-item');
+        const io = new IntersectionObserver((entries)=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting) e.target.classList.add('visible');
+          });
+        }, { threshold: 0.5 });
+        items.forEach(i=> io.observe(i));
+
+      })
+    </script>
 </body>
 </html>
