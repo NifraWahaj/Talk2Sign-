@@ -6,17 +6,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Talk2Sign is a real-time ASL translation PWA using gloss and video synthesis. Built with React, Flask, PyTorch, and Firebase.">
+    <meta property="og:title" content="Talk2Sign • Case Study">
+    <meta property="og:description" content="Real-time ASL translation from text/audio/video using T5 model and ASLLVD video clips.">
+    <meta property="og:image" content="link-to-preview-image.png">
+
   <title>Talk2Sign • Case Study</title>
   <link rel="stylesheet"
   href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
   <style>
     /* Theme Variables */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-    :root { --primary: #d24a69; --primary-hover: #961b3c; --text: #212121; --light: #f9f9f9; --bg: #f2f2f2; --section-gap: 4rem; }
+    :root { --primary: #7c414e; --primary-hover: #431d26; --text: #212121; --light: #f9f9f9; --bg: #512d28; --section-gap: 4rem; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(-45deg, #f2f2f2, #c88d9b, #f9f9f9, #d18ea0);
+      background: linear-gradient(-45deg, #f2f2f2, #c88d9b, #f9f9f9, #9d6373);
       background-size: 400% 400%;
       animation: gradientBG 20s ease infinite;
       color: var(--text);
@@ -153,7 +158,25 @@ position: absolute;
     section { padding: var(--section-gap) 1rem; }
     h2 { font-size: clamp(1.5rem, 4vw, 2rem); color: var(--primary); text-align: center; margin-bottom: 1rem; }
     /* Highlights Cards */
-    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1.5rem; max-width: 1000px; margin: auto; }
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+@media (min-width: 600px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
     .card { background: var(--light); padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; }
     .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
     .card h3 { margin-bottom: 0.5rem; color: var(--primary); }
@@ -346,6 +369,7 @@ font-weight: 600;
 footer {
 background: var(--light);
 padding: 0.1rem 1rem;
+padding-bottom: 1%;
 }
 .footer-copy {
 text-align: center;
@@ -362,6 +386,10 @@ color: var(--text);
   z-index: 200;
   transition: width 0.1s ease-out;
 }
+html {
+  scroll-behavior: smooth;
+}
+
 </style>
 <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -400,31 +428,51 @@ color: var(--text);
     <a href="#timeline" class="btn btn-primary">See Project Timeline</a>
   </header>
 
-  <section id="highlights" class="fade-in delay-2">
-    <h2>Highlights</h2>
-    <div class="cards-grid">
-      <div class="card"><h3>Research</h3><p>State-of-the-art review of ASL translation techniques, including gloss models and avatar synthesis.</p><a href="#research" class="btn btn-secondary">Read More</a></div>
-      <div class="card"><h3>Model Training</h3><p>Fine-tuned T5-Base on cleaned English-ASL gloss dataset with preprocessing and hyperparameter tuning.</p><a href="#training" class="btn btn-secondary">Read More</a></div>
-      <div class="card"><h3>Tech Stack</h3><p>Built with React PWA, Flask backend, PyTorch models, FFmpeg stitching, Firebase auth, and APIs.</p><a href="#techstack" class="btn btn-secondary">Read More</a></div>
-       <!-- <div class="card"><h3>Live Demo</h3><p>Experience a quick ASL translation sample directly in your browser.</p><a href="#demo" class="btn btn-secondary">Play Demo</a></div>
-      <div class="card"><h3>Full Report</h3><p>Download our detailed final-year project report. (Private Until Submission)</p><a href="assets/F24-127.pdf" class="btn btn-secondary">Download PDF</a></div> --> 
+<section id="summary" class="fade-in delay-2">
+  <h2>Project Summary</h2>
+  <div class="cards-grid">
+    <div class="card">
+      <h3> Research & Idea</h3>
+      <p>Explored state-of-the-art ASL systems; pivoted from avatar animation to real ASLLVD videos using gloss translation.</p>
     </div>
-  </section>
-  
-  <section id="demo-code" class="section">
-    <div class="container text-center">
-      <h2 class="section-heading">Live Demo &amp; Source</h2>
-      <div class="cta-group justify-content-center">
-        <a href="#" class="btn btn-primary btn-large disabled" role="button" aria-disabled="true">
-          🔒 Live Demo (Coming Soon)
-        </a>
-        <a href="#" class="btn btn-secondary btn-large disabled" role="button" aria-disabled="true">
-          🔒 GitHub Repo (Private Until Submission)
-        </a>
-      </div>
+    <div class="card">
+      <h3> Model Training</h3>
+      <p>Fine-tuned T5-Base on custom English-gloss dataset. Applied token filtering, normalization, and manual gloss corrections.</p>
     </div>
-  </section>
+    <div class="card">
+      <h3> System Design</h3>
+      <p>React PWA frontend → Flask backend → T5 inference → gloss mapped to video segments → stitched with FFmpeg.</p>
+    </div>
+    <div class="card">
+      <h3> Challenges</h3>
+      <p>Low BLEU scores, incorrect token mapping, FFmpeg merge glitches. Solved via preprocessing, caching, and segment filtering.</p>
+    </div>
+    <div class="card">
+      <h3>Deployment</h3>
+      <p>Live demo supports text/audio/image/YouTube input with Firebase Auth, AssemblyAI ASR, Google Vision OCR.</p>
+    </div>
+    <div class="card">
+      <h3> Impact</h3>
+      <p>Translated 400+ phrases across 4 input types with ~4s latency. Fully modular and accessible from any modern browser.</p>
+    </div>
+  </div>
+</section>
+
   
+<section id="demo-code" class="section">
+  <div class="container text-center">
+    <h2 class="section-heading">Live Demo &amp; Source</h2>
+    <div class="cta-group justify-content-center">
+      <a href="https://talk2sign-46d66.web.app/" class="btn btn-primary btn-large" target="_blank">
+        🚀 Live Demo
+      </a>
+      <a href="https://github.com/NifraWahaj/Talk2Sign" class="btn btn-secondary btn-large" target="_blank">
+        📂 GitHub Repo
+      </a>
+    </div>
+  </div>
+</section>
+
   
   <section id="techstack" class="container">
     <h2>Tech Stack</h2>
@@ -515,7 +563,8 @@ color: var(--text);
         <div class="team-card">
           <div class="avatar">NW</div>
           <h3><a href="https://github.com/nifrawahaj">Nifra Wahaj</a></h3>
-          <p>Model training &amp; Video stitching  &amp; Documentation </p></p>
+          Model training &amp; Video stitching  &amp; Documentation </p>
+          
         </div>
         <div class="team-card">
           <div class="avatar">RN</div>
@@ -552,7 +601,7 @@ color: var(--text);
 
         particlesJS('particles-js', {
           particles: {
-            number: { value: 50 },
+            number: { value: 80 },
             size:   { value: 3 },
             line_linked: { enable: true, distance: 150, opacity: 0.4 },
             move: { speed: 1 }
